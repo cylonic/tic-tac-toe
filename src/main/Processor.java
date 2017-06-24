@@ -125,7 +125,7 @@ public class Processor
             return false;
         }
 
-        if ( row + 1 < 0 || col + 1 < 0 )
+        if ( row < 0 || col < 0 )
         {
             System.out.println( "Entered a coordinate thats off the board!" );
             return false;
