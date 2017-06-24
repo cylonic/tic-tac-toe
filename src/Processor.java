@@ -1,12 +1,13 @@
+import util.Constants;
 
 public class Processor
 {
 
     private String[][] board =
     {
-            { "X", "O", "" },
-            { "X", "X", "O" },
-            { "X", "X", "" } };
+            { Constants.X, Constants.O, Constants.X },
+            { Constants.O, Constants.X, Constants.O },
+            { Constants.O, Constants.X, Constants.O } };
 
     public static void main( String[] args )
     {
@@ -16,11 +17,20 @@ public class Processor
         String msg = processor.detectWinner();
         if ( msg == null )
         {
-            System.out.println( "Next move" );
+            if ( processor.isTie() )
+            {
+                System.out.println( "Tie game!" );
+            } else
+            {
+                System.out.println( "Next move" );
+            }
         } else
         {
             System.out.println( msg + "!" );
         }
+
+        processor.resetBoard();
+        processor.printBoard();
 
     }
 
@@ -28,34 +38,30 @@ public class Processor
     {
         board = new String[][]
         {
-                { " ", " ", " " },
-                { " ", " ", " " },
-                { " ", " ", " " } };
+                { Constants.BLANK, Constants.BLANK, Constants.BLANK },
+                { Constants.BLANK, Constants.BLANK, Constants.BLANK },
+                { Constants.BLANK, Constants.BLANK, Constants.BLANK } };
     }
 
     private void printBoard()
     {
-        System.out.print( board[0][0] );
-        System.out.print( " | " );
-        System.out.print( board[0][1] );
-        System.out.print( " | " );
-        System.out.print( board[0][2] );
 
-        System.out.println( "\n---------" );
+        for (int row = 0; row < board.length; row++)
+        {
+            for (int col = 0; col < board.length; col++)
+            {
+                System.out.print( board[row][col] );
+                if ( col != board.length - 1 )
+                {
+                    System.out.print( Constants.PIPE );
+                }
+            }
+            if ( row != board.length - 1 )
+            {
+                System.out.println( Constants.LINE );
+            }
 
-        System.out.print( board[1][0] );
-        System.out.print( " | " );
-        System.out.print( board[1][1] );
-        System.out.print( " | " );
-        System.out.print( board[1][2] );
-
-        System.out.println( "\n---------" );
-
-        System.out.print( board[2][0] );
-        System.out.print( " | " );
-        System.out.print( board[2][1] );
-        System.out.print( " | " );
-        System.out.print( board[2][2] );
+        }
 
         System.out.println();
     }
@@ -165,6 +171,23 @@ public class Processor
             }
             col++;
         }
+        return true;
+    }
+
+    private boolean isTie()
+    {
+
+        for (int row = 0; row < board.length; row++)
+        {
+            for (int col = 0; col < board.length; col++)
+            {
+                if ( board[row][col].trim().isEmpty() )
+                {
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 
